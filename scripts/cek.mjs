@@ -52,7 +52,7 @@ cek(!/\p{Emoji_Presentation}|️/u.test(html), 'emoji ditemukan di HTML');
 for (const k of ['solusi terbaik', 'berkualitas tinggi', 'kualitas terbaik', 'profesional dan terpercaya', 'terdepan'])
   cek(!html.toLowerCase().includes(k), `frasa klise: "${k}"`);
 
-// Token: blok @theme (terang) dan blok prefers-color-scheme: dark (gelap)
+// Token: blok @theme (terang) dan blok :root[data-tema='gelap'] (gelap, dinyalakan Toggle di footer)
 const ambil = (blok) => Object.fromEntries([...blok.matchAll(/--color-([a-z-]+):\s*([^;]+);/g)].map(([, n, v]) => [n, v.trim()]));
 const terang = ambil(sumber.slice(sumber.indexOf('@theme {'), sumber.indexOf(':root {')));
 const iGelap = sumber.indexOf(":root[data-tema='gelap']");

@@ -17,7 +17,7 @@ export function FormInspeksi() {
     setDicoba(true);
     if (!isi.lokasi.trim()) return document.getElementById('f-lokasi')?.focus();
     if (!kontak.whatsapp) {
-      console.warn('[muria-next] kontak.whatsapp kosong: isi di src/data/site.ts');
+      console.warn('[muria-vite] kontak.whatsapp kosong: isi di src/data/site.ts');
       return setHasil('tanpa-nomor');
     }
     const pesan = [

@@ -6,7 +6,7 @@
    menjadi blue, blue-ink, blue-wash, on-blue) dan nada netral hangat -> dingin agar selaras dengan biru. */
 
 @theme {
-  /* font dipasang lewat @fontsource (entry-client.tsx), jadi namanya langsung, bukan variabel next/font */
+  /* font dipasang lewat @fontsource di entry-client.tsx, jadi dirujuk langsung lewat namanya */
   --font-sans: "IBM Plex Sans", sans-serif;
   --font-mono: "IBM Plex Mono", monospace;
 
