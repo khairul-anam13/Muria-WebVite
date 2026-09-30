@@ -1,0 +1,206 @@
+@import "tailwindcss";
+
+/* oXe Design, dengan base colour BIRU.
+   Struktur, skala tipe, radius, ukuran kontrol, dan prinsipnya mengikuti project/tokens.json milik oXe.
+   Yang berubah dari sumber: warna isian tunggal amber -> biru (amber, amber-ink, amber-wash, on-amber
+   menjadi blue, blue-ink, blue-wash, on-blue) dan nada netral hangat -> dingin agar selaras dengan biru. */
+
+@theme {
+  /* font dipasang lewat @fontsource (entry-client.tsx), jadi namanya langsung, bukan variabel next/font */
+  --font-sans: "IBM Plex Sans", sans-serif;
+  --font-mono: "IBM Plex Mono", monospace;
+
+  /* palet, bayangan, dan radius bawaan Tailwind dibuang: hanya token oXe yang ada */
+  --color-*: initial;
+  --shadow-*: initial;
+  --drop-shadow-*: initial;
+  --inset-shadow-*: initial;
+  --radius-*: initial;
+
+  /* permukaan: tiga tingkat kedalaman tanpa bayangan */
+  --color-bg: #f4f7fc;
+  --color-surface: #eaeff8;
+  --color-surface-strong: #dae3f0;
+  /* garis rambut 1px */
+  --color-line: rgb(16 27 46 / 0.14);
+  --color-line-strong: rgb(16 27 46 / 0.3);
+  /* teks */
+  --color-ink: #101b2e;
+  --color-ink-muted: rgb(16 27 46 / 0.68);
+  --color-ink-faint: rgb(16 27 46 / 0.48);
+  /* SATU warna isian. blue-ink untuk teks kecil/tautan (7,9:1); blue murni untuk isian, fokus, ikon */
+  --color-blue: #1f5fd1;
+  --color-blue-ink: #1747a3;
+  --color-blue-wash: rgb(31 95 209 / 0.1);
+  --color-on-blue: #ffffff;
+  /* sinyal sekunder: teks, titik, dan wash tipis; tidak pernah isian penuh */
+  --color-teal: #0e6e68;
+  --color-teal-wash: rgb(14 110 104 / 0.12);
+  --color-green: #4f6b1c;
+  --color-green-wash: rgb(79 107 28 / 0.12);
+  --color-red: #a2331c;
+  --color-red-wash: rgb(162 51 28 / 0.12);
+
+  --radius-1: 2px;
+  --radius-2: 4px;
+  --radius-round: 999px; /* hanya titik status dan penanda dial */
+}
+
+:root {
+  /* label grafik jangkauan, dalam satuan SVG: lebih besar di ponsel karena grafik mengecil */
+  --fs-peta: 22px;
+  --fs-peta-kecil: 18px;
+}
+@media (min-width: 40rem) {
+  :root {
+    --fs-peta: 16px;
+    --fs-peta-kecil: 13px;
+  }
+}
+
+/* Tema gelap oXe (grafit dingin, bukan hitam murni), hanya bila pengunjung menyalakannya lewat Toggle di footer;
+   tampilan bawaan selalu terang. Nilai yang sama diperiksa kontrasnya oleh scripts/cek.mjs.
+   Pola mengikuti oXe: aksen lebih terang, blue-ink sama dengan blue, teks di atas isian menjadi gelap. */
+@layer base {
+  :root {
+    color-scheme: light;
+  }
+  :root[data-tema='gelap'] {
+    color-scheme: dark;
+    --color-bg: #0e141f;
+    --color-surface: #151d2b;
+    --color-surface-strong: #1e2839;
+    --color-line: rgb(233 239 250 / 0.14);
+    --color-line-strong: rgb(233 239 250 / 0.28);
+    --color-ink: #e9effa;
+    --color-ink-muted: rgb(233 239 250 / 0.68);
+    --color-ink-faint: rgb(233 239 250 / 0.48);
+    --color-blue: #5b93f0;
+    --color-blue-ink: #5b93f0;
+    --color-blue-wash: rgb(91 147 240 / 0.18);
+    --color-on-blue: #0e141f;
+    --color-teal: #3fb6ac;
+    --color-teal-wash: rgb(63 182 172 / 0.16);
+    --color-green: #9cb255;
+    --color-green-wash: rgb(156 178 85 / 0.16);
+    --color-red: #e2684a;
+    --color-red-wash: rgb(226 104 74 / 0.16);
+  }
+  html {
+    scroll-padding-top: 5rem;
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    html {
+      scroll-behavior: smooth;
+    }
+  }
+  body {
+    background: var(--color-bg);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    font-size: 15px;
+    line-height: 22px;
+    -webkit-font-smoothing: antialiased;
+  }
+  :focus-visible {
+    outline: 2px solid var(--color-blue);
+    outline-offset: 2px;
+  }
+  ::selection {
+    background: var(--color-blue);
+    color: var(--color-on-blue);
+  }
+}
+
+/* Foto tidak ikut menjadi gelap di tema gelap, tetapi diredam sedikit agar tidak menyilaukan di atas latar grafit. */
+:root[data-tema='gelap'] .foto-img {
+  filter: brightness(0.88);
+}
+
+/* Skala tipe oXe. Sans untuk kalimat, mono untuk nilai, ID, dan label. */
+@utility t-display-1 {
+  font-size: 34px;
+  line-height: 38px;
+  font-weight: 700;
+  letter-spacing: -0.4px;
+}
+@utility t-display-2 {
+  font-size: 24px;
+  line-height: 29px;
+  font-weight: 700;
+  letter-spacing: -0.2px;
+}
+@utility t-title {
+  font-size: 17px;
+  line-height: 23px;
+  font-weight: 600;
+  letter-spacing: -0.1px;
+}
+@utility t-body {
+  font-size: 15px;
+  line-height: 22px;
+}
+@utility t-body-strong {
+  font-size: 15px;
+  line-height: 22px;
+  font-weight: 600;
+}
+@utility t-caption {
+  font-size: 13px;
+  line-height: 18px;
+}
+@utility t-stat {
+  font-family: var(--font-mono);
+  font-size: 40px;
+  line-height: 40px;
+  font-weight: 600;
+  letter-spacing: -0.5px;
+  font-variant-numeric: tabular-nums;
+}
+@utility t-value {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  line-height: 20px;
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+}
+@utility t-label {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  line-height: 14px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+@utility t-micro {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  line-height: 15px;
+}
+/* Dua tambahan untuk halaman pemasaran (di luar tokens.json): judul hero yang membesar sampai 60px
+   dan paragraf pembuka 17px. Keluarga, bobot, dan ritme tetap milik oXe. */
+@utility t-hero {
+  font-size: clamp(2.125rem, 1.35rem + 3.1vw, 3.75rem);
+  line-height: 1.06;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+@utility t-lead {
+  font-size: 17px;
+  line-height: 26px;
+}
+
+@utility wadah {
+  margin-inline: auto;
+  width: 100%;
+  max-width: 1120px;
+  padding-inline: 20px;
+  @media (min-width: 48rem) {
+    padding-inline: 32px;
+  }
+}
+/* Kertas ukur: kisi titik 24px seperti kanvas pratinjau oXe */
+@utility kisi-titik {
+  background-image: radial-gradient(var(--color-line) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
